@@ -1,2 +1,2 @@
 /* COMPONENT */
-var headerComponent = true;
+var headerComponent = true
