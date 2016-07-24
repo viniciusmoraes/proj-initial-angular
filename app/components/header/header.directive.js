@@ -1,0 +1,2 @@
+/* DIRECTIVE */
+var headerDirective = true;
