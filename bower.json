@@ -1,0 +1,23 @@
+{
+  "name": "proj-initial-angular",
+  "homepage": "https://github.com/viniciusmoraes/proj-initial-angular",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "dependencies": {
+    "angular-bootstrap": "^2.0.0",
+    "angular-route": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-sanitize": "^1.5.8",
+    "angular-cookies": "^1.5.8"
+  },
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
