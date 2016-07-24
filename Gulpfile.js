@@ -10,7 +10,14 @@ var path = require('path'),
     less = require('gulp-less'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
-    html5Lint = require('gulp-html5-lint');
+    html5Lint = require('gulp-html5-lint'),
+    imagemin = require('gulp-imagemin');
+
+gulp.task('minify-img', function(){
+  gulp.src('app/resources/img/**/*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('build/images'))
+});
 
 gulp.task('hml-lint', function() {
   return gulp.src('app/*.html')
