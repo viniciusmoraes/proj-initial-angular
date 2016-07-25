@@ -1,4 +1,5 @@
 /* File: gulpfile.js */
+// https://www.npmjs.com/package/gulp-build
 
 // grab our gulp packages
 var path = require('path'),
@@ -11,7 +12,29 @@ var path = require('path'),
     uglify = require('gulp-uglify'),
     jshint = require('gulp-jshint'),
     html5Lint = require('gulp-html5-lint'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    concatCss = require('gulp-concat-css'),
+    mainBowerFiles = require('gulp-main-bower-files');
+
+
+gulp.task('build', [
+  'minify-img',
+  'minify-html',
+  'uglify-js',
+  'less',
+  'bower'
+], function(){
+  return gulp.src('app/resources/css/**/*.css')
+    .pipe(concatCss("stylesheets/core.css"))
+    .pipe(gulp.dest('build/'));
+});
+
+gulp.task('bower', function() {
+  return gulp.src('bower.json')
+    .pipe(mainBowerFiles())
+    .pipe(uglify())
+    .pipe(gulp.dest('build/javascript'));
+});
 
 gulp.task('minify-img', function(){
   gulp.src('app/resources/img/**/*')
