@@ -14,13 +14,57 @@ var path = require('path'),
     html5Lint = require('gulp-html5-lint'),
     imagemin = require('gulp-imagemin'),
     concatCss = require('gulp-concat-css'),
+    server = require('gulp-server-livereload'),
+    assetpaths = require('gulp-assetpaths'),
     mainBowerFiles = require('gulp-main-bower-files');
 
+
+gulp.task('webserver-build', ['build'], function(){
+
+  gulp.src(['build/*.html'])
+    .pipe(assetpaths({
+      newDomain: 'stylesheets',
+      oldDomain : 'resources/css',
+      docRoot : '.',
+      filetypes : ['css'],
+      templates: false
+    }))
+
+    .pipe(assetpaths({
+      newDomain: 'javascript',
+      oldDomain : 'bower_components/',
+      docRoot : '.',
+      filetypes : ['js'],
+      templates: false
+    }))
+
+    .pipe(assetpaths({
+      newDomain: 'images',
+      oldDomain : 'resources/img',
+      docRoot : '.',
+      filetypes : ['jpg','jpeg','png','ico','gif'],
+      templates: false
+    }))
+    .pipe(gulp.dest('build/'));
+
+
+  gulp.src('build')
+    .pipe(server({
+      livereload: true,
+      directoryListing: 'build',
+      open: true,
+      host: 'localhost',
+      port: 9000,
+      defaultFile: 'index.html'
+
+  }));
+});
 
 gulp.task('build', [
   'minify-img',
   'minify-html',
-  'uglify-js',
+  'uglify-components-js',
+  'uglify-app-js',
   'less',
   'bower'
 ], function(){
@@ -67,10 +111,20 @@ gulp.task('minify-html', function() {
     .pipe(gulp.dest('build'))
 });
 
-gulp.task('uglify-js', function (cb) {
+gulp.task('uglify-components-js', function (cb) {
   pump([
     gulp.src('app/components/**/*.js'),
     uglify(),
     gulp.dest('build/components')
   ],cb);
+
+});
+
+gulp.task('uglify-app-js', function (cb) {
+  pump([
+    gulp.src('app/*.js'),
+    uglify(),
+    gulp.dest('build/javascript')
+  ],cb);
+
 });
