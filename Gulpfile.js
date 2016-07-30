@@ -14,10 +14,23 @@ var path = require('path'),
     html5Lint = require('gulp-html5-lint'),
     imagemin = require('gulp-imagemin'),
     concatCss = require('gulp-concat-css'),
-    server = require('gulp-server-livereload'),
+    connect = require('gulp-connect');
     assetpaths = require('gulp-assetpaths'),
     mainBowerFiles = require('gulp-main-bower-files');
 
+gulp.task('webserver-app', [], function(){
+
+  connect.server({
+    root: 'app/',
+    livereload: true,
+    port: 9001,
+    host: 'localhost',
+    middleware: function(connect) {
+        return [connect().use('/bower_components', connect.static('bower_components'))];
+    }
+  });
+
+});
 
 gulp.task('webserver-build', ['build'], function(){
 
@@ -47,17 +60,13 @@ gulp.task('webserver-build', ['build'], function(){
     }))
     .pipe(gulp.dest('build/'));
 
+  connect.server({
+    root: 'build/',
+    livereload: true,
+    port: 9000,
+    host: 'localhost'
+  });
 
-  gulp.src('build')
-    .pipe(server({
-      livereload: true,
-      directoryListing: 'build',
-      open: true,
-      host: 'localhost',
-      port: 9000,
-      defaultFile: 'index.html'
-
-  }));
 });
 
 gulp.task('build', [

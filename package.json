@@ -12,6 +12,7 @@
     "gulp-assetpaths": "^0.2.0",
     "gulp-concat": "^2.6.0",
     "gulp-concat-css": "^2.3.0",
+    "gulp-connect": "^5.0.0",
     "gulp-html5-lint": "^1.1.0",
     "gulp-htmlmin": "^2.0.0",
     "gulp-imagemin": "^3.0.2",
