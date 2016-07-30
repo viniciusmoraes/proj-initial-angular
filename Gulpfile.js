@@ -2,21 +2,58 @@
 // https://www.npmjs.com/package/gulp-build
 
 // grab our gulp packages
-var path = require('path'),
-    pump = require('pump'),
-    stylish = require('jshint-stylish'),
-    gulp  = require('gulp'),
-    gutil = require('gulp-util'),
-    htmlmin = require('gulp-htmlmin'),
-    less = require('gulp-less'),
-    uglify = require('gulp-uglify'),
-    jshint = require('gulp-jshint'),
-    html5Lint = require('gulp-html5-lint'),
-    imagemin = require('gulp-imagemin'),
-    concatCss = require('gulp-concat-css'),
-    connect = require('gulp-connect');
-    assetpaths = require('gulp-assetpaths'),
+var path        = require('path'),
+    pump        = require('pump'),
+    stylish     = require('jshint-stylish'),
+    gulp        = require('gulp'),
+    gutil       = require('gulp-util'),
+    htmlmin     = require('gulp-htmlmin'),
+    less        = require('gulp-less'),
+    uglify      = require('gulp-uglify'),
+    jshint      = require('gulp-jshint'),
+    html5Lint   = require('gulp-html5-lint'),
+    imagemin    = require('gulp-imagemin'),
+    concatCss   = require('gulp-concat-css'),
+    connect     = require('gulp-connect');
+    assetpaths  = require('gulp-assetpaths'),
+    watch       = require('gulp-watch'),
     mainBowerFiles = require('gulp-main-bower-files');
+
+
+gulp.task('watch', ['webserver-app'], function(){
+  gulp.watch('app/resources/**/*.less', ['less']);
+
+  gulp.watch(['app/**/**/*.html'], function(){
+    return gulp.src(['app/**/**/*.html'])
+      .pipe(connect.reload());
+  });
+
+  gulp.watch(['app/**/**/*.js'], function(){
+    return gulp.src(['app/**/**/*.js'])
+      .pipe(connect.reload());
+  });
+
+  gulp.watch(['app/resources/img/**/'], function(){
+    return gulp.src(['app/resources/img/**/'])
+      .pipe(connect.reload());
+  });
+
+  gulp.watch(['app/services/*.js'], function(){
+    return gulp.src(['app/services/*.js'])
+      .pipe(connect.reload());
+  });
+
+  gulp.watch(['app/translate/*.js'], function(){
+    return gulp.src(['app/translate/*.js'])
+      .pipe(connect.reload());
+  });
+
+  gulp.watch(['app/mock/**/*.json'], function(){
+    return gulp.src(['app/mock/**/*.json'])
+      .pipe(connect.reload());
+  });
+
+});
 
 gulp.task('webserver-app', [], function(){
 
@@ -111,7 +148,8 @@ gulp.task('less', function () {
     .pipe(less({
       paths: [ path.join(__dirname, 'less', 'includes') ]
     }))
-    .pipe(gulp.dest('app/resources/css'));
+    .pipe(gulp.dest('app/resources/css'))
+    .pipe(connect.reload());
 });
 
 gulp.task('minify-html', function() {

@@ -1,2 +1,2 @@
-/* COMPONENT */
+  /* COMPONENT */
 var headerComponent = true
