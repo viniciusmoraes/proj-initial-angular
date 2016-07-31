@@ -3,6 +3,7 @@
 /build
 /node_modules
 /app/resources/*.css
+/bower_components
 
 # Compiled source #
 ###################
